@@ -1,5 +1,8 @@
 import Bicycle from "./bicycle.model.js";
+import User from "./user.model.js";
+
 
 export default{
-    Bicycle
+    Bicycle,
+    User
 };
