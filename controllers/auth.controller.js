@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+import generateToken from '../helpers/generate-jwt.js';
 import User from "../models/user.model.js";
 
 const login = async (req, res) => {
@@ -18,8 +19,13 @@ const login = async (req, res) => {
             });
         };
 
+        const token = await generateToken(user._id);
 
-        return res.status(200).json(user)
+
+        return res.status(200).json({
+            token,
+            user
+        });
             
     } catch (error) {
         if (error) {
