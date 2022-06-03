@@ -38,6 +38,11 @@ UserSchema.pre('save', async function(next){
     next();
 });
 
+UserSchema.methods.toJSON = function() {
+    const { __v, password, ...user} = this.toObject();
+    return user;
+};
+
 const User = mongoose.model('user', UserSchema);
 
 export default User;
