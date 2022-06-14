@@ -18,6 +18,20 @@ const getReserves = async (req, res) => {
 const postReserve = async (req, res) => {
     const {bicycleId, userId,from, to} = req.body;
     try {
+        const userDB = models.User.findById(userId);
+        const bicycleDB = models.Bicycle.findById(bicycleId);
+        const [user, bicycle] = await Promise.all([userDB, bicycleDB]);
+        if(!user){
+            return res.status(404).json({
+                msg:"User not Found"
+            });
+        };
+        if(!bicycle){
+            return res.status(404).json({
+                msg:"Bicycle not Found"
+            });
+        };
+
         const data = {
             bicycle:bicycleId,
             user:userId,

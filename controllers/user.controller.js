@@ -17,13 +17,13 @@ const getUsers = async (req, res) => {
 const postUser = async (req, res) => {
     const {name, email, password} = req.body;
     try {
-        const data = {
+        const data = new models.User({
             name, 
             email, 
             password,
-        };
+        });
 
-        const user = await models.User.create(data);
+        const user = data.save();
         return res.status(201).json({
             user,
         })
