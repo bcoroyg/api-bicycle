@@ -1,5 +1,7 @@
 import models from '../models/index.js';
 import bcrypt from 'bcrypt';
+import generateToken from '../helpers/generate-jwt.js';
+import sendMail from '../helpers/email.js';
 
 const getUsers = async (req, res) => {
     try {
@@ -16,17 +18,16 @@ const getUsers = async (req, res) => {
 
 const postUser = async (req, res) => {
     const {name, email, password} = req.body;
+    let token;
+    let url;
+    let user
     try {
-        const data = new models.User({
+        user = new models.User({
             name, 
             email, 
             password,
         });
-
-        const user = data.save();
-        return res.status(201).json({
-            user,
-        })
+        await user.save();
     } catch (error) {
         const {errors} = error;
         if(errors.email){
@@ -38,6 +39,27 @@ const postUser = async (req, res) => {
             error: error.message,
         });
     };
+    try {
+        token = await generateToken(user._id);
+        url = `${process.env.HOST_FRONTEND}/confirmation/${token}`;  
+        await sendMail({
+            user,
+            subject: 'Activate Account',
+            html:`
+            <b>Please click on the following link, or paste this into your browser to complete the process:</b>
+            <a href="${url}">CLICK HERE!</a>
+            `
+        });
+        user.token = token;
+        await user.save();
+        return res.status(200).json({ 
+            message: "An email was sent to activate account"
+        });
+    } catch (error) {
+        return res.status(505).json({
+            message:"Error Email"
+        })
+    }
 };
 
 const getOneUser = async (req, res) => {

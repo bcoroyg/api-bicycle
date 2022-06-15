@@ -26,7 +26,14 @@ const UserSchema = new Schema({
         type: String,
         required: true,
     }, 
-    passwordResetToken: { 
+    rol:{
+        type: String,
+    },
+    verified: {
+        type: Boolean,
+        default: false
+    },
+    token: { 
         type: String, 
     },
 });
@@ -42,7 +49,7 @@ UserSchema.pre('save', async function(next){
 });
 
 UserSchema.methods.toJSON = function() {
-    const { __v, password, ...user} = this.toObject();
+    const { _id,__v, password, token, verified, ...user} = this.toObject();
     return user;
 };
 

@@ -2,9 +2,9 @@ import jwt from 'jsonwebtoken';
 import models from '../models/index.js';
 
 const checkToken = async (req, res, next) => {
-    const token = req.header('Authorization');
+    const jwtToken = req.header('Authorization');
     console.log(req.headers)
-    if(!token) {
+    if(!jwtToken) {
         return res.status(401).json({
             message: 'Access denied. We need a valid token.'
         });
