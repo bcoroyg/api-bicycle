@@ -23,12 +23,12 @@ const postReserve = async (req, res) => {
         const [user, bicycle] = await Promise.all([userDB, bicycleDB]);
         if(!user){
             return res.status(404).json({
-                msg:"User not Found"
+                message:"User not Found"
             });
         };
         if(!bicycle){
             return res.status(404).json({
-                msg:"Bicycle not Found"
+                message:"Bicycle not Found"
             });
         };
 

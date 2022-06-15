@@ -26,6 +26,9 @@ const UserSchema = new Schema({
         type: String,
         required: true,
     }, 
+    passwordResetToken: { 
+        type: String, 
+    },
 });
 
 UserSchema.plugin(uniqueValidator, { message: '{PATH} already exists.' });

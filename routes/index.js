@@ -10,7 +10,7 @@ const routerAPI = (app) => {
     router.use('/bicycles', bicycleRouter);
     router.use('/users', userRouter);
     router.use('/reserves', reserveRouter);
-    router.use('/auth', authRouter);
+    router.use('/', authRouter);
 };
 
 export default routerAPI;
