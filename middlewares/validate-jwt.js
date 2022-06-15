@@ -1,9 +1,8 @@
 import jwt from 'jsonwebtoken';
 import models from '../models/index.js';
 
-const checkToken = async (req, res, next) => {
+const verifyToken = async (req, res, next) => {
     const jwtToken = req.header('Authorization');
-    console.log(req.headers)
     if(!jwtToken) {
         return res.status(401).json({
             message: 'Access denied. We need a valid token.'
@@ -11,13 +10,14 @@ const checkToken = async (req, res, next) => {
     };
     try {
         const {uid} = jwt.verify(jwtToken, process.env.JWT_SECRET);
-        const user = await models.User.findById(uid);
-        if (!user) {
+        const userDB = await models.User.findById(uid);
+        if (!userDB) {
             return res.status(401).json({
                 message: 'Access denied, invalid token.'
             });
         };
-        req.user = user;
+        const { name, role} = userDB;
+        req.user = {_id:uid,name,role};
         next()
     } catch (error) {
         return res.status(401).json({
@@ -26,4 +26,4 @@ const checkToken = async (req, res, next) => {
     };
 };
 
-export default checkToken;
+export default verifyToken;

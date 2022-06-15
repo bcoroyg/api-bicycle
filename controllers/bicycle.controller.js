@@ -15,13 +15,12 @@ const getBicycles = async (req, res) => {
 };
 
 const postBicycle = async (req, res) => {
-    const {color, model, lat, lng} = req.body;
+    const {color, model} = req.body;
     try {
         const data = {
             code: shortid.generate(),
             color,
             model,
-            location: [lat, lng],
         };
 
         const bicycle = await models.Bicycle.create(data);
@@ -39,6 +38,11 @@ const getOneBicycle = async (req, res) => {
     const {id} = req.params;
     try {
         const bicycle = await models.Bicycle.findById(id);
+        if(!bicycle){
+            return res.status(404).json({
+                message:'Bike not found.'
+            });
+        };
         return res.status(200).json({
             bicycle,
         })
@@ -51,15 +55,19 @@ const getOneBicycle = async (req, res) => {
 
 const putBicycle = async (req, res) => {
     const {id} = req.params;
-    const {color, model, lat, lng} = req.body;
+    const {color, model} = req.body;
     try {
         const data = {
             color,
             model,
-            location: [lat, lng]
         };
 
         const bicycle = await models.Bicycle.findByIdAndUpdate(id, data, {new: true});
+        if(!bicycle){
+            return res.status(404).json({
+                message:'The bike you want to update does not exist'
+            });
+        };
         return res.status(200).json({
             bicycle,
         })
@@ -73,7 +81,12 @@ const putBicycle = async (req, res) => {
 const deleteBicycle = async (req, res) => {
     const {id} = req.params;
     try {
-        await models.Bicycle.findByIdAndDelete(id);
+        const bicycle = await models.Bicycle.findByIdAndDelete(id);
+        if(!bicycle){
+            return res.status(404).json({
+                message:'The bike you want to delete does not exist'
+            });
+        };
         return res.status(200).json({
             message: 'Bicycle deleted.',
         });

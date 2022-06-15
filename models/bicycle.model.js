@@ -12,12 +12,9 @@ const BicycleSchema = new Schema({
     model: {
         type: String
     },
-    location: {
-        type: [Number], 
-        index: { 
-            type: '2dsphere ', 
-            sparse: true ,
-        },
+    reserved:{
+        type: Boolean,
+        default:false,
     },
 });
 
