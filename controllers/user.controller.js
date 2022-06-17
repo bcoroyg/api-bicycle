@@ -52,8 +52,9 @@ const postUser = async (req, res) => {
         });
         user.token = token;
         await user.save();
-        return res.status(200).json({ 
-            message: "An email was sent to activate account"
+        return res.status(201).json({ 
+            message: "An email was sent to activate account",
+            user,
         });
     } catch (error) {
         return res.status(505).json({

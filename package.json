@@ -6,7 +6,8 @@
   "license": "MIT",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "test": "jasmine" 
   },
   "engines": {
     "node": "16.x"
@@ -26,6 +27,7 @@
     "shortid": "^2.2.16"
   },
   "devDependencies": {
+    "jasmine": "^4.2.0",
     "nodemon": "^2.0.16"
   }
 }
