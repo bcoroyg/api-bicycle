@@ -41,6 +41,8 @@ const postUser = async (req, res) => {
     };
     try {
         token = await generateToken(user._id);
+        user.token = token;
+        await user.save();
         url = `${process.env.HOST_FRONTEND}/confirmation/${token}`;  
         await sendMail({
             user,
@@ -50,8 +52,6 @@ const postUser = async (req, res) => {
             <a href="${url}">CLICK HERE!</a>
             `
         });
-        user.token = token;
-        await user.save();
         return res.status(201).json({ 
             message: "An email was sent to activate account",
             user,

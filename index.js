@@ -5,11 +5,12 @@ import path from 'path';
 import logger from 'morgan';
 import createError from 'http-errors';
 import cors from 'cors';
+import url from 'url';
+import swaggerUI from 'swagger-ui-express';
 import routerAPI from './routes/index.js';
 import connectionDB from './config/database.js';
-import * as url from 'url';
+import openApiConfiguration from './documentation/swagger.js';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
-
 
 const connectDB = async () => {
     await connectionDB();
@@ -25,6 +26,8 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/documentation', swaggerUI.serve, swaggerUI.setup(openApiConfiguration));
 
 routerAPI(app);
 
