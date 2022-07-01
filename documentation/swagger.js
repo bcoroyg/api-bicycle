@@ -33,7 +33,7 @@ const swaggerDefinition = {
             },
             authRegister: {
                 type: "object",
-                required: ["name", "email", "password"],
+                required: ["email", "password", "confirmPassword"],
                 properties: {
                     name: {
                         type: "string",
@@ -42,6 +42,9 @@ const swaggerDefinition = {
                         type: "string",
                     },
                     password: {
+                        type: "string",
+                    },
+                    confirmPassword: {
                         type: "string",
                     },
                 },
