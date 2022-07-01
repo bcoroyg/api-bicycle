@@ -60,6 +60,58 @@ const login = async (req, res) => {
     };
 };
 
+const postRegisterUser = async (req, res) => {
+    const {name, email, password, confirmPassword} = req.body;
+    let token;
+    let url;
+    let user
+    try {
+        if(password !== confirmPassword) {
+            return res.json({
+                message: "Not match the password, please try again"
+            })
+        }
+        user = new models.User({
+            name, 
+            email, 
+            password,
+        });
+        await user.save();
+    } catch (error) {
+        const {errors} = error;
+        if(errors.email){
+            return res.status(500).json({
+                message:errors.email.message
+            });
+        }
+        return res.status(500).json({
+            error: error.message,
+        });
+    };
+    try {
+        token = await generateToken(user._id);
+        user.token = token;
+        await user.save();
+        url = `${process.env.HOST_FRONTEND}/confirmation/${token}`;  
+        await sendMail({
+            user,
+            subject: 'Activate Account',
+            html:`
+            <b>Please click on the following link, or paste this into your browser to complete the process:</b>
+            <a href="${url}">CLICK HERE!</a>
+            `
+        });
+        return res.status(201).json({ 
+            message: "An email was sent to activate account",
+            user,
+        });
+    } catch (error) {
+        return res.status(505).json({
+            message:"Error Email"
+        })
+    }
+};
+
 const postForgotPassword = async (req, res) => {
     const {email} = req.body;
     let user;
@@ -158,6 +210,7 @@ const postResetPassword = async (req, res) => {
 export default {
     getConfirmationAccount,
     login,
+    postRegisterUser,
     postForgotPassword,
     getResetPassword,
     postResetPassword,
