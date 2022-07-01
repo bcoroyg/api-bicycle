@@ -12,9 +12,10 @@ const swaggerDefinition = {
     ],
     components: {
         securitySchemes: {
-            bearerAuth: {
-                type: "http",
-                scheme: "bearer"
+            ApiKeyAuth: {
+                type: "apiKey",
+                in: "header",
+                name: "Authorization"
             }
         },
         schemas: {
@@ -45,6 +46,21 @@ const swaggerDefinition = {
                     },
                 },
             },
+            Bicycle: {
+                type: "object",
+                properties: {
+                    color: {
+                        type: "string",
+                    },
+                    model: {
+                        type: "string"
+                    }
+                },
+                example: {
+                    color: "Rojo",
+                    model: "X1"
+                }
+            }
         },
     },
 };
