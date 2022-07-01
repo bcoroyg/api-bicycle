@@ -44,6 +44,8 @@ router.get('/', bicycleController.getBicycles);
  *          description: new bicycle created!.
  *        '401':
  *          description: Access denied. We need a valid token.
+ *        '403':
+ *          description: You do not have the permitted role to access this resource.
  */
 router.post('/', [verifyToken, authorize([Role.Admin])], bicycleController.postBicycle);
 
@@ -100,6 +102,8 @@ router.get('/:id', bicycleController.getOneBicycle);
  *          description: bicycle updated!.
  *        '401':
  *          description: Access denied. We need a valid token.
+ *        '403':
+ *          description: You do not have the permitted role to access this resource.
  */
 router.put('/:id', [verifyToken, authorize([Role.Admin])], bicycleController.putBicycle);
 
@@ -123,6 +127,8 @@ router.put('/:id', [verifyToken, authorize([Role.Admin])], bicycleController.put
  *          description: bicycle deleted!.
  *        '401':
  *          description: Access denied. We need a valid token.
+ *        '403':
+ *          description: You do not have the permitted role to access this resource.
  */
 router.delete('/:id', [verifyToken, authorize([Role.Admin])], bicycleController.deleteBicycle);
 

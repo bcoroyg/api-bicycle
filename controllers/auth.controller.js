@@ -47,6 +47,12 @@ const login = async (req, res) => {
             });
         };
 
+        if (!user.verified) {
+            return res.status(200).json({
+                message: "User has not been activated." 
+            });
+        }
+
         const token = await generateToken(user._id);
 
         return res.status(200).json({
