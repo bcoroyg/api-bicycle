@@ -40,7 +40,7 @@ const getOneBicycle = async (req, res) => {
         const bicycle = await models.Bicycle.findById(id);
         if(!bicycle){
             return res.status(404).json({
-                message:'Bike not found.'
+                message:'Bicycle not found.'
             });
         };
         return res.status(200).json({

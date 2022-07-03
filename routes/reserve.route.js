@@ -24,6 +24,8 @@ const router = express.Router();
  *                  $ref: "#/components/schemas/Reserve"
  *        '401':
  *          description: Access denied. We need a valid token.
+ *        '403':
+ *          description: You do not have the permitted role to access this resource.
  */
 router.get('/',[verifyToken, authorize([Role.Admin])], reserveController.getReserves);
 
@@ -75,6 +77,10 @@ router.post('/',[verifyToken, authorize([Role.Admin, Role.Customer])], reserveCo
  *              schema:
  *                type: object
  *                $ref: "#/components/schemas/Reserve"
+ *        '401':
+ *          description: Access denied. We need a valid token.
+ *        '403':
+ *          description: You do not have the permitted role to access this resource.
  *        '404':
  *          description: Reserve not found!.
  */
@@ -134,6 +140,8 @@ router.put('/:id',[verifyToken, authorize([Role.Admin])], reserveController.putR
  *          description: Access denied. We need a valid token.
  *        '403':
  *          description: You do not have the permitted role to access this resource.
+ *        '404':
+ *          description: Reserve not found!.
  */
 router.delete('/:id',[verifyToken, authorize([Role.Admin])], reserveController.deleteReserve);
 

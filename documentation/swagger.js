@@ -67,10 +67,10 @@ const swaggerDefinition = {
             Reserve: {
                 type : "object",
                 properties: {
-                    user: {
+                    userId: {
                         type: "string", 
                     },
-                    bicycle: {
+                    bicycleId: {
                         type: "string", 
                     },
                     from: {
@@ -80,6 +80,20 @@ const swaggerDefinition = {
                     to: {
                         type: "string",
                         format: "date-time",
+                    },
+                }
+            },
+            User: {
+                type : "object",
+                properties: {
+                    name: {
+                        type: "string", 
+                    },
+                    email: {
+                        type: "string", 
+                    },
+                    password: {
+                        type: "string",
                     },
                 }
             }

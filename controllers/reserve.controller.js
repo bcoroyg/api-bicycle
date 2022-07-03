@@ -32,6 +32,15 @@ const postReserve = async (req, res) => {
             });
         };
 
+        if(bicycle.reserved){
+            return res.status(200).json({
+                message:"Bicycle was already reserved."
+            });
+        };
+
+        bicycle.reserved = true;
+        await bicycle.save();
+
         const data = {
             bicycle:bicycleId,
             user:userId,

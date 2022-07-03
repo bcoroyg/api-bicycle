@@ -19,8 +19,6 @@ const router = express.Router();
  *                type: array
  *                items:
  *                  $ref: "#/components/schemas/Bicycle"
- *        '401':
- *          description: Access denied. We need a valid token.
  */
 router.get('/', bicycleController.getBicycles);
 
@@ -104,6 +102,8 @@ router.get('/:id', bicycleController.getOneBicycle);
  *          description: Access denied. We need a valid token.
  *        '403':
  *          description: You do not have the permitted role to access this resource.
+ *        '404':
+ *          description: Bicycle not found!.
  */
 router.put('/:id', [verifyToken, authorize([Role.Admin])], bicycleController.putBicycle);
 
@@ -129,6 +129,8 @@ router.put('/:id', [verifyToken, authorize([Role.Admin])], bicycleController.put
  *          description: Access denied. We need a valid token.
  *        '403':
  *          description: You do not have the permitted role to access this resource.
+ *        '404':
+ *          description: Bicycle not found!.
  */
 router.delete('/:id', [verifyToken, authorize([Role.Admin])], bicycleController.deleteBicycle);
 
