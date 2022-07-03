@@ -63,6 +63,25 @@ const swaggerDefinition = {
                     color: "Rojo",
                     model: "X1"
                 }
+            },
+            Reserve: {
+                type : "object",
+                properties: {
+                    user: {
+                        type: "string", 
+                    },
+                    bicycle: {
+                        type: "string", 
+                    },
+                    from: {
+                        type: "string",
+                        format: "date-time",
+                    },
+                    to: {
+                        type: "string",
+                        format: "date-time",
+                    },
+                }
             }
         },
     },

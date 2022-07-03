@@ -112,7 +112,7 @@ const postRegisterUser = async (req, res) => {
             user,
         });
     } catch (error) {
-        return res.status(505).json({
+        return res.status(500).json({
             message:"Error Email"
         })
     }
