@@ -180,27 +180,29 @@ const getResetPassword = async (req, res) => {
 };
 
 const postResetPassword = async (req, res) => {
-    const {email, password, confirm_password} = req.body;
+    const {token} = req.params;
+    const {password, confirmPassword} = req.body;
     try {
-        if(!password || !confirm_password){
+        if(!password || !confirmPassword){
             return res.json({
                 message:"required."
             })
         };
-        if (password !== confirm_password) {
+        if (password !== confirmPassword) {
             return res.json({
                 message:"The password entered does not match, I tried again"
             })
         };
 
-        const user = await models.User.findOne({email});
+        const user = await models.User.findOne({token});
         if (!user) {
             return res.status(400).json({ 
-                message: 'User not existed!.',
+                message: 'We did not find a user with this token.',
             });
         };
 
         user.password = password;
+        user.token = null
         await user.save();
         return res.status(200).json({ 
             message: "The password reset"

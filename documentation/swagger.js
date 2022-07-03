@@ -49,6 +49,15 @@ const swaggerDefinition = {
                     },
                 },
             },
+            authForgotPassword: {
+                type: "object",
+                required: ["email"],
+                properties: {
+                    email: {
+                        type: "string",
+                    },
+                },
+            },
             Bicycle: {
                 type: "object",
                 properties: {
